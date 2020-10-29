@@ -1,0 +1,51 @@
+1st get the command nasm
+
+The commands you need to compile and link assembly file so you actually get a working program:
+
+nasm -f elf64 -o hello.o hello.asm
+ld -o hello hello.o
+
+nasm -f macho64 -o test.o test.asm
+ld -macosx_version_min 10.5 -o test test.o
+ar rc libasm.a test.o    
+
+3 different ways to define strings with nasm:
+
+db 'Hello world', 10 ; with single quotes
+db "Hello world", 10 ; with double quotes
+db `Hello world\n`   ; with backticks, \n, \r, \t, etc are available
+
+data - section is used for declaring initialized data or constants
+bss - section is used for declaring non initialized variables
+text - section is used for code
+
+there are 16 general-purpose registers - rax, rbx, rcx, rdx, rbp, rsp, rsi, rdi, r8, r9, r10, r11, r12, r13, r14, r15.
+
+ADD - integer add
+SUB - substract
+MUL - unsigned multiply
+IMUL - signed multiply
+DIV - unsigned divide
+IDIV - signed divide
+INC - increment
+DEC - decrement
+NEG - negate
+
+JE - if equal
+JZ - if zero
+JNE - if not equal
+JNZ - if not zero
+JG - if first operand is greater than second
+JGE - if first operand is greater or equal to second
+JA - the same that JG, but performs unsigned comparison
+JAE - the same that JGE, but performs unsigned comparison
+
+Compiler :
+nasm -f macho64 -o test.o test.asm
+ar rc libasm.a test.o
+gcc -Wl,-no_pie main.c libasm.a
+
+;rdi = 1er argument // rsi = 2eme argument
+
+RAX (64 bits) peut être décomposé en : EAX (32 bits), AX (16 bits), AH et AL (8 bits chacun, avec AH poids fort (droite) et AL poids faible (gauche))
+;adresses des arguments de la fonction : rdi, rsi, rdx, rcx, r8, r9
